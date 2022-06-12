@@ -1,0 +1,24 @@
+<ion-app>
+  
+  <ion-menu side="start" menuId="mainMenu" contentId="mainContent">
+    <ion-header color="primary">
+      <ion-toolbar>
+        <ion-title>Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="true">
+          <ion-item [routerLink]="['/home']" [routerLinkActive]="['active-menu-item']">
+            <ion-icon name="home-outline"></ion-icon>
+            <ion-label class="ion-margin-start">Inicio</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="mainContent"></ion-router-outlet>
+</ion-app>
+

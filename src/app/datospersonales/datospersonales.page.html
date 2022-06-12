@@ -1,0 +1,78 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start"> <!-- *ngIf="isUserAuthenticated()" --> 
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Oh Mama! Oh my Food!
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!isUserAuthenticated()" [routerLink]="['/login']">
+        <ion-icon name="log-in-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="isUserAuthenticated()" [routerLink]="['/notificaciones']">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="isUserAuthenticated()" [routerLink]="['/datospersonales']">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="isUserAuthenticated()" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-margin" *ngIf="misdatos != null">
+        <ion-item>
+          <ion-label position="stacked">APODO</ion-label>
+          <ion-input value="{{misdatos.Apodo}}" placeholder="{{misdatos.Apodo}}" [(ngModel)]="apodo"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label position="stacked">NOMBRE</ion-label>
+          <ion-input value="{{misdatos.Nombre}}" placeholder="{{misdatos.Nombre}}" [(ngModel)]="nombre"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label position="stacked">APELLIDO1</ion-label>
+          <ion-input value="{{misdatos.Apellido1}}" placeholder="{{misdatos.Apellido1}}" [(ngModel)]="apellido1"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label position="stacked">APELLIDO2</ion-label>
+          <ion-input value="{{misdatos.Apellido2}}" placeholder="{{misdatos.Apellido2}}" [(ngModel)]="apellido2"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label position="stacked">CORREO</ion-label>
+          <ion-input value="{{misdatos.Correo}}" placeholder="{{misdatos.Correo}}" type="email" [(ngModel)]="correo"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label position="stacked">TELEFONO</ion-label>
+          <ion-input value="{{misdatos.Telefono}}" placeholder="{{misdatos.Telefono}}" type="tel" [(ngModel)]="telefono"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label position="stacked">CONTRASEÑA</ion-label>
+          <ion-input type="password" [(ngModel)]="contra"></ion-input>
+        </ion-item>
+        <br>
+        <ion-item>
+          <ion-label position="stacked">CONTRASEÑA NUEVA</ion-label>
+          <ion-input type="password" [(ngModel)]="contraN"></ion-input>
+        </ion-item>
+        <br>
+
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <ion-button color="danger">Cancel·lar</ion-button>
+            <ion-button (click)="updateuser()">Modificar Datos</ion-button>
+          </ion-row>
+        </ion-grid>
+
+
+  </div>
+</ion-content>

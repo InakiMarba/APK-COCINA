@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>notificaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card size="12" *ngFor="let noti of listaNoti">
+    <div  class="ion-text-center">
+      <h3>CodigoMesa: {{noti.codMesa}}</h3><hr/>
+      <p>Tipo Pedido: {{noti.tipo}}</p>
+      <p>{{noti.texto}}</p>
+    </div>
+  </ion-card>
+</ion-content>

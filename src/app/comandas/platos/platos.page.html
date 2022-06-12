@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>platos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        Plato
+      </ion-col>
+      <ion-col>
+        Estado Actual
+      </ion-col>
+      <ion-col>
+        Cantidad
+      </ion-col>
+      <ion-col>
+        Observaciones
+      </ion-col>
+      <ion-col>
+        Suplementos
+      </ion-col>
+      <ion-col>
+        Acciones
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let platos of listaPlatos">
+      <ion-col>
+        {{platos.nombre}}
+      </ion-col>
+      <ion-col>
+        {{platos.estadoActual}}
+      </ion-col>
+      <ion-col>
+        {{platos.cantidad}}
+      </ion-col>
+      <ion-col>
+        {{platos.observaciones}}
+      </ion-col>
+      <ion-col>
+        <span *ngFor="let sup of platos.suplementos">{{sup}}</span>
+      </ion-col>
+      <ion-col>
+
+        <ion-button *ngIf="platos.estadoActual=='Espera' && rol==7" (click)="canvioEstado(platos.idPlato,'Preparacion')">
+          Empezar Plato
+        </ion-button>
+        <ion-button *ngIf="platos.estadoActual=='Preparacion' && rol==7" (click)="canvioEstado(platos.idPlato,'Lista')">
+          Terminar Plato
+        </ion-button>
+
+        <ion-button *ngIf="platos.estadoActual=='Lista' && rol==8" (click)="canvioEstado(platos.idPlato,'Entregada')">
+          Entregada
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
