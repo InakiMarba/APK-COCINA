@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Notificacion } from '../modelos/notificacion';
 import { Pedido } from '../modelos/pedido';
 import { Platos } from '../modelos/platos';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +24,20 @@ export class ComandasService {
   private _lista_platos:Platos[]=[];
   private _lista_noti:Notificacion[]=[];
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _authService: AuthService) { }
 
+  
   pedidosRes(idRes):void{
+    this._lista_comandos=[];
 
-    this._http.get(this.BASE_URL+this.COMANDOS+idRes).subscribe(
+    const options: any = {
+      headers: new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + this._authService.token)
+    };
+    
+    this._http.get(this.BASE_URL+this.COMANDOS+idRes, options).subscribe(
       (data:any)=>{
         for(let i=0;i<data.data.length;i++){
           let codCom=data.data[i].IdCom;
@@ -48,15 +58,23 @@ export class ComandasService {
 
           this._lista_comandos.push(pedido);
         }
-
+        this._authService.token = data.refreshToken;
 
       });
 
   }
 
   pedidosResCam(idRes):void{
+    this._lista_comandos=[];
 
-    this._http.get(this.BASE_URL+this.COMANDOSCAM+idRes).subscribe(
+    const options: any = {
+      headers: new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + this._authService.token)
+    };
+
+    this._http.get(this.BASE_URL+this.COMANDOSCAM+idRes,options).subscribe(
       (data:any)=>{
         for(let i=0;i<data.data.length;i++){
           let codCom=data.data[i].IdCom;
@@ -77,15 +95,23 @@ export class ComandasService {
 
           this._lista_comandos.push(pedido);
         }
-
+        this._authService.token = data.refreshToken;
 
       });
 
   }
 
   platoPedidos(codComan):void{
+    this._lista_platos=[];
 
-    this._http.get(this.BASE_URL+this.PLATOS+codComan).subscribe(
+    const options: any = {
+      headers: new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + this._authService.token)
+    };
+
+    this._http.get(this.BASE_URL+this.PLATOS+codComan,options).subscribe(
       (data:any)=>{
         for(let i=0;i<data.data.length;i++){
           let idPlato=data.data[i].IdPlatos;
@@ -113,14 +139,14 @@ export class ComandasService {
 
           this._lista_platos.push(platos);
         }
-
+        this._authService.token = data.refreshToken;
 
       });
 
   }
 
   notifi(idRes):void{
-
+    this._lista_noti=[];
     this._http.get(this.BASE_URL+this.NOTIFICACIONES+idRes).subscribe(
       (data:any)=>{
         for(let i=0;i<data.data.length;i++){
@@ -143,19 +169,30 @@ export class ComandasService {
   }
   //CambEstado
   cambiarEstadoPedi(com,seguimiento):void{
+    const options: any = {
+      headers: new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + this._authService.token)
+    };
 
-    this._http.get(this.BASE_URL+this.ESTADOPED+com+"/"+seguimiento).subscribe(
+    this._http.get(this.BASE_URL+this.ESTADOPED+com+"/"+seguimiento,options).subscribe(
       (data:any)=>{
-
+        this._authService.token = data.refreshToken;
       });
 
   }
 
   cambiarEstadoPlato(com,plato,estado):void{
-
-    this._http.get(this.BASE_URL+this.ESTADOPLATO+com+"/"+plato+"/"+estado).subscribe(
+    const options: any = {
+      headers: new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + this._authService.token)
+    };
+    this._http.get(this.BASE_URL+this.ESTADOPLATO+com+"/"+plato+"/"+estado,options).subscribe(
       (data:any)=>{
-        
+        this._authService.token = data.refreshToken;
       });
 
   }

@@ -10,6 +10,7 @@ export class AuthService {
     private BASE_URL: string = "http://localhost/api";
     private _email: string = null;
     private _password: string = null;
+    router: any;
 
     //Injecció del servei HttpClient per poder fer les peticions al WebService
     constructor(private _http: HttpClient) {}
@@ -40,16 +41,21 @@ export class AuthService {
                 //Una crida POST ha de rebre l'URL, les dades i les opcions (capçaleres)
                 this._http.post(this.BASE_URL + "/login", data, options).subscribe(
                     (response: any) => {
-                        if(response.status == 200) {
-                            console.log(response);
-                            //Si tot va bé, emmagatzemem el TOKEN al LS
-                            localStorage.setItem("TOKEN", response.token);
-                            localStorage.setItem("idUser", response.data.uid);
-                            localStorage.setItem("idRes", response.data.idRes);
-                            localStorage.setItem("idRol", response.data.idRol);
-                            resolve(true);
+                        if(response.data.idRol==7 || response.data.idRol==8){   
+                                if(response.status == 200) {
+                                    console.log(response);
+                                    //Si tot va bé, emmagatzemem el TOKEN al LS
+                                    localStorage.setItem("TOKEN", response.token);
+                                    localStorage.setItem("idUser", response.data.uid);
+                                    localStorage.setItem("idRes", response.data.idRes);
+                                    localStorage.setItem("idRol", response.data.idRol);
+                                    
+                                    resolve(true);
+                                }
+                                else resolve(false);
+                        }else{
+                            this.router.navigate(['/home']);
                         }
-                        else resolve(false);
                     },
                     (error: any) => {
                         console.log(error);

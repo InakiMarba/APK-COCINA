@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Pedido } from '../modelos/pedido';
 import { ComandasService } from '../service/comandas.service';
 
@@ -13,14 +13,20 @@ export class ComandasPage implements OnInit {
   rol=localStorage.getItem("idRol");
 
   constructor(private _comandos:ComandasService, private router: Router) {
-    let idRes=localStorage.getItem("idRes");
 
-      if(this.rol=="7"){
-        this._comandos.pedidosRes(idRes);
-      }else if(this.rol=="8"){
-        this._comandos.pedidosResCam(idRes);
-      }
-    
+      this.router.events.subscribe(
+        (event: RouterEvent) => {
+            if(event instanceof NavigationEnd && this.router.url=="/comandas") {
+              let idRes=localStorage.getItem("idRes");
+              console.log(idRes);
+              if(this.rol=="7"){
+                this._comandos.pedidosRes(idRes);
+              }else if(this.rol=="8"){
+                this._comandos.pedidosResCam(idRes);
+              }
+            }
+        }
+    );
    }
 
   ngOnInit() {
@@ -32,6 +38,13 @@ export class ComandasPage implements OnInit {
 
   canvioSegui(codCom,estado):void{
     this._comandos.cambiarEstadoPedi(codCom,estado);
-    this.router.navigate(['/comandas']);
+    // this.router.navigate(['/comandas']);
+    let idRes=localStorage.getItem("idRes");
+    console.log(idRes);
+    if(this.rol=="7"){
+      this._comandos.pedidosRes(idRes);
+    }else if(this.rol=="8"){
+      this._comandos.pedidosResCam(idRes);
+    }
   }
 }
