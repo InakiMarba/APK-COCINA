@@ -14,6 +14,7 @@ export class MisdatosService {
   public _telefono: string;
   public _contra: string;
   public _contraN: string;
+  private _misdatos: any[] = [];
 
   constructor(private _http: HttpClient, private _authService: AuthService) { }
   private BASE_URL: string = "http://localhost/api";
@@ -77,5 +78,35 @@ export class MisdatosService {
         }
     );
 }
+
+
+getdatos():void{
+  //Crida al mètode GET
+  const options: any = {
+      headers: new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + this._authService.token)
+  };
+  
+  this._http.get(this.BASE_URL + "misdatos",options).subscribe(
+      (datos: any) => {
+          console.log(datos);
+          // this._misdatos = [];
+          this._misdatos = datos.data;
+          this._authService.token = datos.refreshToken;
+      }
+  );
+}
+
+
+
+
+
+
+get datospersonales(){
+  return this._misdatos;
+}
+
 
 }

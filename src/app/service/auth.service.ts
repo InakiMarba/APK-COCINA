@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
     router: any;
 
     //Injecció del servei HttpClient per poder fer les peticions al WebService
-    constructor(private _http: HttpClient) {}
+    constructor(private _http: HttpClient, private _router: Router) {}
 
     /*La funció de login serà async perquè, en el moment d'iniciar sessió,
     voldrem esperar-ne el resultat abans d'accedir a la part privada del client.*/
@@ -84,6 +85,7 @@ export class AuthService {
         localStorage.removeItem("idRes");
         localStorage.removeItem("idRol");
         localStorage.removeItem("TOKEN");
+        this._router.navigate(['/login']);
     }
 
     get token(): string {

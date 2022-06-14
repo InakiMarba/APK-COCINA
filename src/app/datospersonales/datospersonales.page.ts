@@ -39,5 +39,9 @@ export class DatospersonalesPage implements OnInit {
           console.log(error);
       }
     }
-  
+
+    get misdatos():any[]{
+      console.log(this._misdatosService.datospersonales);
+      return this._misdatosService.datospersonales;
+    }
 }

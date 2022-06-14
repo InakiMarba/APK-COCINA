@@ -1,71 +1,66 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>comandas</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>  
+  <ion-title>comandas</ion-title>
+ 
+
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!isUserAuthenticated()" [routerLink]="['/login']">
+        <ion-icon name="log-in-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="isUserAuthenticated()" [routerLink]="['/notificaciones']">
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="isUserAuthenticated()" [routerLink]="['/datospersonales']">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="isUserAuthenticated()" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
   
   <ion-grid>
-    <ion-row>
-      <ion-col>
-        Nº Pedido
-      </ion-col>
-      <ion-col>
-        Estado Actual
-      </ion-col>
-      <ion-col>
-        Tipo
-      </ion-col>
-      <ion-col>
-        Fecha
-      </ion-col>
-      <ion-col>
-        Codigo Mesa
-      </ion-col>
-      <ion-col>
-        Comensales
-      </ion-col>
-      <ion-col>
-        Acciones
-      </ion-col>
-    </ion-row>
-    <ion-row *ngFor="let pedidos of listaPedidos">
-      <ion-col>
-        {{pedidos.codCom}}
-      </ion-col>
-      <ion-col>
-        {{pedidos.estadoActual}}
-      </ion-col>
-      <ion-col>
-        {{pedidos.tipo}}
-      </ion-col>
-      <ion-col>
-        {{pedidos.fecha}}
-      </ion-col>
-      <ion-col>
-        {{pedidos.codMesa}}
-      </ion-col>
-      <ion-col>
-        {{pedidos.Comensales}}
-      </ion-col>
-      <ion-col>
-        <ion-button [routerLink]="['/comandas/platos', pedidos.codCom]">
-          Ver Más
-        </ion-button>
-        
-        <ion-button *ngIf="pedidos.estadoActual=='En espera' && rol==7" (click)="canvioSegui(pedidos.codCom,'Empezada')">
-          Empezar Pedido
-        </ion-button>
-        <ion-button *ngIf="pedidos.estadoActual=='Empezada' && rol==7" (click)="canvioSegui(pedidos.codCom,'Entregada')">
-          Terminar Pedido
-        </ion-button>
+    <span *ngFor="let pedidos of listaPedidos">
+        <ion-card class="ion-padding ion-text-center">
 
-        <ion-button *ngIf="pedidos.estadoActual=='Entregada' && rol==8" (click)="canvioSegui(pedidos.codCom,'Cobrada')">
-          Cobrar Pedido
-        </ion-button>
-      </ion-col>
-    </ion-row>
+            Nº Comanda: {{pedidos.codCom}} <br>
+       
+            Estado: {{pedidos.estadoActual}} <br>
+ 
+            Tipo: {{pedidos.tipo}} <br>
+         
+            Fecha: {{pedidos.fecha}}<br>
+          
+            Mesa: {{pedidos.codMesa}} <br>
+        
+            Nº de Comensales: {{pedidos.Comensales}} <br>
+
+            <ion-button [routerLink]="['/comandas/platos', pedidos.codCom]">
+              Ver Más 
+            </ion-button><br>
+            <ion-button *ngIf="pedidos.estadoActual=='En espera' && rol==7" (click)="canvioSegui(pedidos.codCom,'Empezada')">
+              Empezar Pedido
+            </ion-button><br>
+            <ion-button *ngIf="pedidos.estadoActual=='Empezada' && rol==7" (click)="canvioSegui(pedidos.codCom,'Entregada')">
+              Terminar Pedido
+            </ion-button><br>
+    
+            <ion-button *ngIf="pedidos.estadoActual=='Entregada' && rol==8" (click)="canvioSegui(pedidos.codCom,'Cobrada')">
+              Cobrar Pedido
+            </ion-button><br>
+          </ion-card>
+        
+      
+        
+       
+</span>      
   </ion-grid>
 
 </ion-content>

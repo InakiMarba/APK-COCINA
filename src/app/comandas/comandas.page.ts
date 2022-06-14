@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Pedido } from '../modelos/pedido';
+import { AuthService } from '../service/auth.service';
 import { ComandasService } from '../service/comandas.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class ComandasPage implements OnInit {
 
   rol=localStorage.getItem("idRol");
 
-  constructor(private _comandos:ComandasService, private router: Router) {
+  constructor(private _authService:AuthService, private _comandos:ComandasService, private router: Router) {
 
       this.router.events.subscribe(
         (event: RouterEvent) => {
@@ -28,10 +29,14 @@ export class ComandasPage implements OnInit {
         }
     );
    }
-
+   logout(){
+    this._authService.logout();
+  }
   ngOnInit() {
   }
-
+  isUserAuthenticated(): boolean {
+    return this._authService.isUserAuthenticated();
+  }
   get listaPedidos():Pedido[]{
     return this._comandos.listaPedidos;
   }

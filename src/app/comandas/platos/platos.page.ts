@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Platos } from 'src/app/modelos/platos';
+import { AuthService } from 'src/app/service/auth.service';
 import { ComandasService } from 'src/app/service/comandas.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class PlatosPage implements OnInit {
   codCom;
   rol=localStorage.getItem("idRol");
 
-  constructor(private _comandos:ComandasService, private router: Router,private _activatedRoute: ActivatedRoute) { 
+  constructor(private _comandos:ComandasService, private _authService:AuthService, private router: Router,private _activatedRoute: ActivatedRoute) { 
     let routa = this._activatedRoute.snapshot.params;
     this.codCom = routa.codCom;
 
@@ -26,7 +27,13 @@ export class PlatosPage implements OnInit {
   get listaPlatos():Platos[]{
     return this._comandos.listaPlatos;
   }
+  isUserAuthenticated(): boolean {
+    return this._authService.isUserAuthenticated();
+  }
 
+  logout(){
+    this._authService.logout();
+  }
   canvioEstado(idPlato,estado):void{
     this._comandos.cambiarEstadoPlato(this.codCom,idPlato,estado);
     this.router.navigate(['/platos',this.codCom]);
